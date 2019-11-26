@@ -8,7 +8,7 @@ Geometry::Geometry(GLuint shader){
     this->shader = shader;
 }
 
-Geometry::Geometry(std::string objFilename, GLuint shader) : Geometry(shader)
+Geometry::Geometry(GLuint shader, std::string objFilename) : Geometry(shader)
 {
     errno = 0;
     ifstream infile(objFilename);
@@ -23,15 +23,18 @@ Geometry::Geometry(std::string objFilename, GLuint shader) : Geometry(shader)
         while (getline(infile, line)) {
             stringstream ss;
             ss << line;
-            string tag;
+            string tag, part;
             ss >> tag;
-            if (tag == "v") {
+            if (tag == "v" || tag == "vn") {
                 glm::vec3 point;
                 ss >> point.x >> point.y >> point.z;
-                points.push_back(point);
+                if (tag == "v") {
+                    points.push_back(point);
+                } else {
+                    normals.push_back(point);
+                }
             }
             if (tag == "f") {
-                string part;
                 ss >> part;
                 glm::ivec3 id;
                 part = part.substr(0, part.find("//"));
@@ -42,13 +45,7 @@ Geometry::Geometry(std::string objFilename, GLuint shader) : Geometry(shader)
                 ss >> part;
                 part = part.substr(0, part.find("//"));
                 id.z = stoi(part) - 1;
-            
                 indices.push_back(id);
-            }
-            if (tag == "vn") {
-                glm::vec3 point;
-                ss >> point.x >> point.y >> point.z;
-                normals.push_back(point);
             }
         }
     }
@@ -57,31 +54,7 @@ Geometry::Geometry(std::string objFilename, GLuint shader) : Geometry(shader)
     }
     infile.close();
 
-    // arrays storing mins and max of xyz axis.
-    float mnX = INF, mxX = -INF, mnY = INF, mxY = -INF, mnZ = INF, mxZ = -INF;
-    
-    for (auto p : points) {
-        mnX = std::min(mnX, p.x);
-        mxX = std::max(mxX, p.x);
-        mnY = std::min(mnY, p.y);
-        mxY = std::max(mxY, p.y);
-        mnZ = std::min(mnZ, p.z);
-        mxZ = std::max(mxZ, p.z);
-    }
-
-    float constant = 2;
-
-    for (int i = 0; i != points.size(); i++) {
-        float mX = (mnX + mxX) / 2.0, mY = (mnY + mxY) / 2.0, mZ = (mnZ + mxZ) / 2.0;
-        float mxLen = max({mxX - mnX, mxX - mnX, mxX - mnX});
-        points[i].x = (points[i].x - mX) / mxLen * constant;
-        points[i].y = (points[i].y - mY) / mxLen * constant;
-        points[i].z = (points[i].z - mZ) / mxLen * constant;
-    }
-
     model = glm::mat4(1);
-    
-    // Generate a vertex array (VAO) and a vertex buffer objects (VBO).
     glGenVertexArrays(1, &vao);
     glGenBuffers(2, vbos);
     glBindVertexArray(vao);     // Bind to the VAO.

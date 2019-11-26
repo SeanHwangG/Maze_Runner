@@ -15,26 +15,28 @@
 #include <iostream>
 #include <vector>
 #include <memory>
+//#include <irrklang/irrKlang.h>
 
-#include "Object.h"
-#include "Cube.h"
-#include "Geometry.h"
+#include "Player.h"
+#include "Maze.h"
 #include "Shader.h"
 #include "Skybox.h"
 
 class Window
 {
 public:
+    static bool is_birdeye;
 	static int width;
 	static int height;
 	static const char* windowTitle;
-	static Cube* cube;
-	static Geometry * player;
+	static Maze* maze;
+	static Player * player;
     static Skybox * skybox;
-	
     static glm::mat4 projection;
 	static glm::mat4 view;
-	static glm::vec3 eye, center, up;
+    static glm::vec3 eye;
+    static glm::vec3 center;
+    static glm::vec3 up;
     
     static GLuint object_shader;
     static GLuint skybox_shader;

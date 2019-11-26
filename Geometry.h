@@ -23,19 +23,19 @@
 #include <math.h>
 #include <time.h>
 
-#include "Object.h"
 
-class Geometry : public Object
+class Geometry
 {
 public:
     double INF = 99999;
     GLuint textureID;
     std::vector<glm::vec3> points, normals, out_vertices, out_normals;
     std::vector<glm::ivec3> indices;
+    glm::mat4 model;
     GLuint vao, vbos[2], ebo, shader;
     Geometry();
     Geometry(GLuint shader);
-    Geometry(std::string objFilename, GLuint shader);
+    Geometry(GLuint shader, std::string objFilename);
     ~Geometry();
     
     void draw();

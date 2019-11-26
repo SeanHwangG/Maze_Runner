@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		141077592383213800F0BAA5 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 141077572383213800F0BAA5 /* Player.cpp */; };
+		1410778923832CA000F0BAA5 /* Maze.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1410778723832CA000F0BAA5 /* Maze.cpp */; };
 		14E254A02380D16F00852CFB /* Skybox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14E2549F2380D16F00852CFB /* Skybox.cpp */; };
 		14EBA1AC2380C6E200504B84 /* Geometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14EBA19E2380C6E100504B84 /* Geometry.cpp */; };
 		14EBA1AD2380C6E200504B84 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14EBA19F2380C6E100504B84 /* main.cpp */; };
 		14EBA1AE2380C6E200504B84 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14EBA1A12380C6E100504B84 /* Shader.cpp */; };
-		14EBA1AF2380C6E200504B84 /* Cube.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14EBA1A52380C6E200504B84 /* Cube.cpp */; };
+		14EBA1AF2380C6E200504B84 /* Wall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14EBA1A52380C6E200504B84 /* Wall.cpp */; };
 		14EBA1B02380C6E200504B84 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14EBA1A62380C6E200504B84 /* Window.cpp */; };
 		14EBA1B32380C6FB00504B84 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14EBA1B22380C6FB00504B84 /* OpenGL.framework */; };
 		14EBA1B52380C73A00504B84 /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 14EBA1B42380C73A00504B84 /* libglfw.3.3.dylib */; };
@@ -30,6 +32,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		140D28CB238D28D3001DE3A4 /* box.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = box.obj; sourceTree = "<group>"; };
+		141077572383213800F0BAA5 /* Player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = SOURCE_ROOT; };
+		141077582383213800F0BAA5 /* Player.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = SOURCE_ROOT; };
+		1410778723832CA000F0BAA5 /* Maze.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Maze.cpp; sourceTree = SOURCE_ROOT; };
+		1410778823832CA000F0BAA5 /* Maze.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Maze.h; sourceTree = SOURCE_ROOT; };
 		14E254962380CCBA00852CFB /* right.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = right.tga; sourceTree = "<group>"; };
 		14E254972380CCBA00852CFB /* front.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = front.tga; sourceTree = "<group>"; };
 		14E254982380CCBA00852CFB /* back.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = back.tga; sourceTree = "<group>"; };
@@ -42,13 +49,12 @@
 		14E2549F2380D16F00852CFB /* Skybox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Skybox.cpp; sourceTree = SOURCE_ROOT; };
 		14EBA1922380C66B00504B84 /* MAZERUNNER */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MAZERUNNER; sourceTree = BUILT_PRODUCTS_DIR; };
 		14EBA19C2380C6E100504B84 /* Geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Geometry.h; sourceTree = SOURCE_ROOT; };
-		14EBA19D2380C6E100504B84 /* Cube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cube.h; sourceTree = SOURCE_ROOT; };
+		14EBA19D2380C6E100504B84 /* Wall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wall.h; sourceTree = SOURCE_ROOT; };
 		14EBA19E2380C6E100504B84 /* Geometry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Geometry.cpp; sourceTree = SOURCE_ROOT; };
 		14EBA19F2380C6E100504B84 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = SOURCE_ROOT; };
-		14EBA1A02380C6E100504B84 /* Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Object.h; sourceTree = SOURCE_ROOT; };
 		14EBA1A12380C6E100504B84 /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = SOURCE_ROOT; };
 		14EBA1A22380C6E200504B84 /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = SOURCE_ROOT; };
-		14EBA1A52380C6E200504B84 /* Cube.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cube.cpp; sourceTree = SOURCE_ROOT; };
+		14EBA1A52380C6E200504B84 /* Wall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Wall.cpp; sourceTree = SOURCE_ROOT; };
 		14EBA1A62380C6E200504B84 /* Window.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = SOURCE_ROOT; };
 		14EBA1A72380C6E200504B84 /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Window.h; sourceTree = SOURCE_ROOT; };
 		14EBA1A92380C6E200504B84 /* object.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = object.vert; sourceTree = "<group>"; };
@@ -94,19 +100,22 @@
 			children = (
 				14EBA1B62380C93400504B84 /* objects */,
 				14EBA1A82380C6E200504B84 /* shaders */,
-				14EBA1A52380C6E200504B84 /* Cube.cpp */,
-				14EBA19D2380C6E100504B84 /* Cube.h */,
+				14EBA1A52380C6E200504B84 /* Wall.cpp */,
+				14EBA19D2380C6E100504B84 /* Wall.h */,
 				14EBA19F2380C6E100504B84 /* main.cpp */,
 				14EBA1A22380C6E200504B84 /* main.h */,
-				14EBA1A02380C6E100504B84 /* Object.h */,
 				14EBA19E2380C6E100504B84 /* Geometry.cpp */,
 				14EBA19C2380C6E100504B84 /* Geometry.h */,
 				14EBA1A12380C6E100504B84 /* Shader.cpp */,
 				14EBA1AB2380C6E200504B84 /* Shader.h */,
 				14EBA1A62380C6E200504B84 /* Window.cpp */,
+				141077572383213800F0BAA5 /* Player.cpp */,
+				141077582383213800F0BAA5 /* Player.h */,
 				14EBA1A72380C6E200504B84 /* Window.h */,
 				14E2549F2380D16F00852CFB /* Skybox.cpp */,
 				14E2549E2380D16E00852CFB /* Skybox.h */,
+				1410778723832CA000F0BAA5 /* Maze.cpp */,
+				1410778823832CA000F0BAA5 /* Maze.h */,
 			);
 			path = MAZERUNNER;
 			sourceTree = "<group>";
@@ -134,6 +143,7 @@
 		14EBA1B62380C93400504B84 /* objects */ = {
 			isa = PBXGroup;
 			children = (
+				140D28CB238D28D3001DE3A4 /* box.obj */,
 				14E254982380CCBA00852CFB /* back.tga */,
 				14E2549A2380CCBA00852CFB /* base.tga */,
 				14E254972380CCBA00852CFB /* front.tga */,
@@ -202,11 +212,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14EBA1AF2380C6E200504B84 /* Cube.cpp in Sources */,
+				14EBA1AF2380C6E200504B84 /* Wall.cpp in Sources */,
+				141077592383213800F0BAA5 /* Player.cpp in Sources */,
 				14EBA1B02380C6E200504B84 /* Window.cpp in Sources */,
 				14EBA1AE2380C6E200504B84 /* Shader.cpp in Sources */,
 				14EBA1AD2380C6E200504B84 /* main.cpp in Sources */,
 				14EBA1AC2380C6E200504B84 /* Geometry.cpp in Sources */,
+				1410778923832CA000F0BAA5 /* Maze.cpp in Sources */,
 				14E254A02380D16F00852CFB /* Skybox.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

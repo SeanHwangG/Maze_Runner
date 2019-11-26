@@ -16,14 +16,14 @@ Skybox::Skybox(GLuint shader) : Geometry(shader)
      */
     std::vector<glm::vec3> vertices
     {
-        glm::vec3(-500.0f, 500.0f, 500.0f),
-        glm::vec3(-500.0f, -500.0f, 500.0f),
-        glm::vec3(500.0f, -500.0f, 500.0f),
-        glm::vec3(500.0f, 500.0f, 500.0f),
-        glm::vec3(-500.0f, 500.0f, -500.0f),
-        glm::vec3(-500.0f, -500.0f, -500.0f),
-        glm::vec3(500.0f, -500.0f, -500.0f),
-        glm::vec3(500.0f, 500.0f, -500.0f)
+        glm::vec3(-50.0f, 50.0f, 50.0f),
+        glm::vec3(-50.0f, -50.0f, 50.0f),
+        glm::vec3(50.0f, -50.0f, 50.0f),
+        glm::vec3(50.0f, 50.0f, 50.0f),
+        glm::vec3(-50.0f, 50.0f, -50.0f),
+        glm::vec3(-50.0f, -50.0f, -50.0f),
+        glm::vec3(50.0f, -50.0f, -50.0f),
+        glm::vec3(50.0f, 50.0f, -50.0f)
     };
     //for (auto& v : vertices) v *= 500;
 
