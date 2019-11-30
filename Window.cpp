@@ -29,6 +29,24 @@ bool Window::initializeProgram() {
     object_shader = LoadShaders("shaders/object.vert", "shaders/object.frag");
     skybox_shader = LoadShaders("shaders/skybox.vert", "shaders/skybox.frag");
 
+    ALCcontext *context;
+    ALCdevice *device;
+     
+    device = alcOpenDevice(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
+    if (device == NULL)
+    {
+       // Handle Exception
+    }
+     
+    //Create a context
+    context=alcCreateContext(device,NULL);
+     
+    //Set active context
+    alcMakeContextCurrent(context);
+     
+    // Clear Error Code
+    alGetError();
+    
     /*ISoundEngine *SoundEngine = createIrrKlangDevice();
       
     void Game::Init()

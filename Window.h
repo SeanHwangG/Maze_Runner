@@ -16,6 +16,9 @@
 #include <vector>
 #include <memory>
 //#include <irrklang/irrKlang.h>
+#include "AL/al.h"
+#include "AL/alc.h"
+#include "AL/alext.h"
 
 #include "Player.h"
 #include "Maze.h"

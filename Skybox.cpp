@@ -88,5 +88,4 @@ void Skybox::draw() {
     
     glBindVertexArray(0);
     glDepthMask(GL_TRUE);
-    
 }
