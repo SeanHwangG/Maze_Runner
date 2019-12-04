@@ -2,7 +2,7 @@
 
 Skybox::Skybox(GLuint shader) : Geometry(shader)
 {
-    textureID = Skybox::loadCubemap({"objects/right.tga", "objects/left.tga", "objects/top.tga", "objects/base.tga", "objects/front.tga", "objects/back.tga"});;
+    textureID = Skybox::loadCubemap({"data/right.tga", "data/left.tga", "data/top.tga", "data/base.tga", "data/front.tga", "data/back.tga"});;
 
     /*
      * Skybox indices used below.
@@ -14,6 +14,7 @@ Skybox::Skybox(GLuint shader) : Geometry(shader)
      *  1----2
 
      */
+    // Changing to 0 100 for y axis doesn't work
     std::vector<glm::vec3> vertices
     {
         glm::vec3(-50.0f, 50.0f, 50.0f),
@@ -23,10 +24,10 @@ Skybox::Skybox(GLuint shader) : Geometry(shader)
         glm::vec3(-50.0f, 50.0f, -50.0f),
         glm::vec3(-50.0f, -50.0f, -50.0f),
         glm::vec3(50.0f, -50.0f, -50.0f),
-        glm::vec3(50.0f, 50.0f, -50.0f)
+        glm::vec3(50.0f, 100.0f, -50.0f)
     };
     //for (auto& v : vertices) v *= 500;
-
+    
     // Each ivec3(v1, v2, v3) define a triangle consists of vertices v1, v2
     std::vector<glm::ivec3> indices {
         // Front face.

@@ -20,12 +20,12 @@ class Player : public Geometry
 {
 public:
     glm::mat4 projection; // Projection matrix.
-    glm::vec3 pos;
-    glm::vec3 dir;
+    glm::vec3 eye;
+    glm::vec3 center; // looking at 
     Player(GLuint shader, std::string objFilename, glm::vec3 start_pos);
     glm::mat4 getView();
-    void walk();
-    void stop();
+    bool is_walking = false;
+    int is_turning = 0;
     void draw();
 };
 

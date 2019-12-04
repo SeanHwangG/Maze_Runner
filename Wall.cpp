@@ -1,8 +1,10 @@
 #include "Wall.h"
 
-Wall::Wall(GLuint shader, int i, int j) : Geometry(shader, "objects/box.obj")
+Wall::Wall(GLuint shader, int i, int j, int height) : Geometry(shader, "data/box.obj")
 {
-    model *= glm::translate(glm::vec3(i, 0, j));
+    //model *= glm::translate(glm::vec3(-40 + 80 * i / (double)50, -50, -40 + 80 * j / (double)50));
+    model *= glm::translate(glm::vec3(-40 + i, -50, -40 + j));
+    
 }
 
 Wall::~Wall()

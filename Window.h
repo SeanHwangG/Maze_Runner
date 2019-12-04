@@ -15,10 +15,6 @@
 #include <iostream>
 #include <vector>
 #include <memory>
-//#include <irrklang/irrKlang.h>
-#include "AL/al.h"
-#include "AL/alc.h"
-#include "AL/alext.h"
 
 #include "Player.h"
 #include "Maze.h"
@@ -40,6 +36,7 @@ public:
     static glm::vec3 eye;
     static glm::vec3 center;
     static glm::vec3 up;
+    static glm::vec3 lastPos;
     
     static GLuint object_shader;
     static GLuint skybox_shader;
@@ -52,6 +49,8 @@ public:
 	static void displayCallback(GLFWwindow*);
 	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
     static void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+    static void cursorPositionCallback(GLFWwindow* window, double xpos, double ypos);
+    static glm::vec3 trackBallMapping(double xpos, double ypos);
 };
 
 #endif

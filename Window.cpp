@@ -15,10 +15,11 @@ const char* Window::windowTitle = "GLFW Starter Project";
 Player * Window::player;
 Skybox * Window::skybox;
 Maze * Window::maze;
+glm::vec3 Window::lastPos;
 
 glm::mat4 Window::projection; // Projection matrix.
-glm::vec3 Window::eye(15, 50, 15); // Camera position.
-glm::vec3 Window::center(15, 0, 15); // The point we are looking at.
+glm::vec3 Window::eye(15, 49, 15); // Camera position.
+glm::vec3 Window::center(15, -40, 15); // The point we are looking at.
 glm::vec3 Window::up(0, 0, -1); // The up direction of the camera.
 glm::mat4 Window::view = glm::lookAt(Window::eye, Window::center, Window::up);
 
@@ -29,42 +30,15 @@ bool Window::initializeProgram() {
     object_shader = LoadShaders("shaders/object.vert", "shaders/object.frag");
     skybox_shader = LoadShaders("shaders/skybox.vert", "shaders/skybox.frag");
 
-    ALCcontext *context;
-    ALCdevice *device;
-     
-    device = alcOpenDevice(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
-    if (device == NULL)
-    {
-       // Handle Exception
-    }
-     
-    //Create a context
-    context=alcCreateContext(device,NULL);
-     
-    //Set active context
-    alcMakeContextCurrent(context);
-     
-    // Clear Error Code
-    alGetError();
-    
-    /*ISoundEngine *SoundEngine = createIrrKlangDevice();
-      
-    void Game::Init()
-    {
-        [...]
-        SoundEngine->play2D("audio/breakout.mp3", GL_TRUE);
-    }*/
-
     if (!object_shader || !skybox_shader)
     {
         std::cerr << "Failed to initialize shader program" << std::endl;
         return false;
     }
     
-    
     skybox = new Skybox(skybox_shader);
-    player = new Player(object_shader, "objects/sphere.obj", glm::vec3(0, 0, 0));
-    maze = new Maze(object_shader, "objects/maze1.txt");
+    player = new Player(object_shader, "data/sphere.obj", glm::vec3(0, -40, 0));
+    maze = new Maze(object_shader, "data/maze1.txt");
     
     return true;
 }
@@ -97,7 +71,6 @@ GLFWwindow* Window::createWindow(int width, int height)
     // Create the GLFW window.
     GLFWwindow* window = glfwCreateWindow(width, height, windowTitle, NULL, NULL);
 
-    // Check if the window could not be created.
     if (!window)
     {
         std::cerr << "Failed to open GLFW window." << std::endl;
@@ -105,7 +78,6 @@ GLFWwindow* Window::createWindow(int width, int height)
         return NULL;
     }
 
-    // Make the context of the window.
     glfwMakeContextCurrent(window);
 
 #ifndef __APPLE__
@@ -117,7 +89,6 @@ GLFWwindow* Window::createWindow(int width, int height)
     }
 #endif
 
-    // Set swap interval to 1.
     glfwSwapInterval(0);
 
     Window::resizeCallback(window, width, height);
@@ -128,21 +99,20 @@ GLFWwindow* Window::createWindow(int width, int height)
 void Window::resizeCallback(GLFWwindow* window, int width, int height)
 {
 #ifdef __APPLE__
-    // In case your Mac has a retina display.
     glfwGetFramebufferSize(window, &width, &height);
 #endif
     Window::width = width;
     Window::height = height;
-    // Set the viewport size.
+    
     glViewport(0, 0, width, height);
 
-    // Set the projection matrix.
     Window::projection = glm::perspective(glm::radians(60.0),
         double(width) / (double)height, 1.0, 1000.0);
 }
 
 void Window::idleCallback()
 {
+    
 }
 
 void Window::displayCallback(GLFWwindow* window)
@@ -182,12 +152,13 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
             is_birdeye = !is_birdeye;
             break;
         case GLFW_KEY_LEFT:
+            player->is_turning = -1;
             break;
         case GLFW_KEY_RIGHT:
+            player->is_turning = 1;
             break;
         case GLFW_KEY_UP:
-            std::cout << "walking";
-            player->walk();
+            player->is_walking = true;
             break;
         case GLFW_KEY_DOWN:
             break;
@@ -195,11 +166,42 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
             break;
         }
     }
-    else {
-        std::cout << "stop";
-        player->stop();
+    if (action == GLFW_RELEASE) {
+        switch (key)
+        {
+            case GLFW_KEY_UP:
+                player->is_walking = false;
+                break;
+            case GLFW_KEY_LEFT:
+                player->is_turning = 0;
+        }
+
     }
 }
 
 void Window::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
+}
+
+glm::vec3 Window::trackBallMapping(double xpos, double ypos) {
+    glm::vec3 v;
+    
+    v.x = (2.0 * xpos - Window::width) / (float)Window::width;
+    v.y = (Window::height - 2.0 * ypos) / (float)Window::height;
+    float d = (glm::length(v) < 1.0? glm::length(v): 1.0);
+    v.z = sqrtf(1.001 - d*d);
+    
+    return -glm::normalize(v);
+}
+
+void Window::cursorPositionCallback(GLFWwindow* window, double xpos, double ypos) {
+    int state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+    glm::vec3 curPos = trackBallMapping(xpos, ypos);
+    if (state == GLFW_PRESS && Window::lastPos.x != 0) {
+        glm::vec3 rotAxis = glm::cross(Window::lastPos, curPos);
+        glm::mat4 rot = glm::rotate(glm::radians(0.7f), rotAxis);
+        //player->dir = rot * glm::vec4(player->dir, 0);
+        //player->center = glm::vec4(player->eye, 1) + rot * glm::vec4(player->center - player->eye, 1);
+    }
+    
+    Window::lastPos = curPos;
 }

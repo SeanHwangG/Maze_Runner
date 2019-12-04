@@ -9,24 +9,25 @@
 #include "Player.h"
 
 Player::Player(GLuint shader, std::string objFilename, glm::vec3 start_pos) : Geometry(shader, objFilename){
-    pos = start_pos;
-    dir = glm::vec3(1, 0, 0);
+    eye = start_pos;
+    center = glm::vec3(1, 0, 0);
 };
 
 glm::mat4 Player::getView() {
-    return glm::lookAt(pos, dir, glm::vec3(0, 1, 0));
+    return glm::lookAt(eye, eye + glm::vec3(center.x, 0, center.z), glm::vec3(0, 1, 0));
 }
 
-void Player::walk() {
-    pos = pos + dir;
-    model = model * glm::translate(dir);
-}
-
-void Player::stop() {
-    
-}
 
 void Player::draw() {
+    if (is_walking) {
+        eye = eye + center * glm::vec3(0.002, 0, 0.002);
+        model = model * glm::translate(center);
+    }
+    if (is_turning) {
+        //model = model * glm::rotate(glm::mat4(1, ));
+    }
+
+    //glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_FALSE, glm::value_ptr(pos));
     glUniform3fv(glGetUniformLocation(shader, "color"), 1, glm::value_ptr(glm::vec3(1,0,0)));
     Geometry::draw();
 }

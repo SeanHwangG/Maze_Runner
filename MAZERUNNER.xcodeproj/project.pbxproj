@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		141077592383213800F0BAA5 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 141077572383213800F0BAA5 /* Player.cpp */; };
 		1410778923832CA000F0BAA5 /* Maze.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1410778723832CA000F0BAA5 /* Maze.cpp */; };
+		149A7BAF23970B530042959A /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 149A7BAE23970B530042959A /* GLUT.framework */; };
 		14E254A02380D16F00852CFB /* Skybox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14E2549F2380D16F00852CFB /* Skybox.cpp */; };
 		14EBA1AC2380C6E200504B84 /* Geometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14EBA19E2380C6E100504B84 /* Geometry.cpp */; };
 		14EBA1AD2380C6E200504B84 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14EBA19F2380C6E100504B84 /* main.cpp */; };
@@ -17,6 +18,7 @@
 		14EBA1B02380C6E200504B84 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 14EBA1A62380C6E200504B84 /* Window.cpp */; };
 		14EBA1B32380C6FB00504B84 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14EBA1B22380C6FB00504B84 /* OpenGL.framework */; };
 		14EBA1B52380C73A00504B84 /* libglfw.3.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 14EBA1B42380C73A00504B84 /* libglfw.3.3.dylib */; };
+		14F26C1523924DBA00D26385 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F26C1423924DBA00D26385 /* OpenAL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,6 +39,7 @@
 		141077582383213800F0BAA5 /* Player.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = SOURCE_ROOT; };
 		1410778723832CA000F0BAA5 /* Maze.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Maze.cpp; sourceTree = SOURCE_ROOT; };
 		1410778823832CA000F0BAA5 /* Maze.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Maze.h; sourceTree = SOURCE_ROOT; };
+		149A7BAE23970B530042959A /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		14E254962380CCBA00852CFB /* right.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = right.tga; sourceTree = "<group>"; };
 		14E254972380CCBA00852CFB /* front.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = front.tga; sourceTree = "<group>"; };
 		14E254982380CCBA00852CFB /* back.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = back.tga; sourceTree = "<group>"; };
@@ -63,6 +66,7 @@
 		14EBA1B22380C6FB00504B84 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		14EBA1B42380C73A00504B84 /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = ../../../../usr/local/Cellar/glfw/3.3/lib/libglfw.3.3.dylib; sourceTree = "<group>"; };
 		14EBA1B72380C93400504B84 /* sphere.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.obj; sourceTree = "<group>"; };
+		14F26C1423924DBA00D26385 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +74,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				149A7BAF23970B530042959A /* GLUT.framework in Frameworks */,
+				14F26C1523924DBA00D26385 /* OpenAL.framework in Frameworks */,
 				14EBA1B52380C73A00504B84 /* libglfw.3.3.dylib in Frameworks */,
 				14EBA1B32380C6FB00504B84 /* OpenGL.framework in Frameworks */,
 			);
@@ -109,9 +115,9 @@
 				14EBA1A12380C6E100504B84 /* Shader.cpp */,
 				14EBA1AB2380C6E200504B84 /* Shader.h */,
 				14EBA1A62380C6E200504B84 /* Window.cpp */,
+				14EBA1A72380C6E200504B84 /* Window.h */,
 				141077572383213800F0BAA5 /* Player.cpp */,
 				141077582383213800F0BAA5 /* Player.h */,
-				14EBA1A72380C6E200504B84 /* Window.h */,
 				14E2549F2380D16F00852CFB /* Skybox.cpp */,
 				14E2549E2380D16E00852CFB /* Skybox.h */,
 				1410778723832CA000F0BAA5 /* Maze.cpp */,
@@ -134,6 +140,8 @@
 		14EBA1B12380C6FB00504B84 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				149A7BAE23970B530042959A /* GLUT.framework */,
+				14F26C1423924DBA00D26385 /* OpenAL.framework */,
 				14EBA1B42380C73A00504B84 /* libglfw.3.3.dylib */,
 				14EBA1B22380C6FB00504B84 /* OpenGL.framework */,
 			);

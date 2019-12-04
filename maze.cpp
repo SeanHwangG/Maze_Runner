@@ -81,17 +81,16 @@ std::vector<std::string> generate() {
 
 Maze::Maze(GLuint shader, std::string file_name) : Geometry(shader){
     srand((int)time(NULL));
-    N = 40;
+    N = 50;
     generate();
     
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
             if (G[i][j] == '#') {
-                walls.push_back(new Wall(shader, i, j));
+                walls.push_back(new Wall(shader, i, j, rand()));
             }
         }
     }
-    
 }
 
 void Maze::draw() {

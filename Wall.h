@@ -17,7 +17,7 @@
 class Wall : public Geometry
 {
 public:
-	Wall(GLuint shader, int i, int j);
+	Wall(GLuint shader, int i, int j, int height);
 	~Wall();
 
 	void draw();
