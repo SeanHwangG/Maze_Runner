@@ -49,8 +49,6 @@ public:
 	static void displayCallback(GLFWwindow*);
 	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
     static void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
-    static void cursorPositionCallback(GLFWwindow* window, double xpos, double ypos);
-    static glm::vec3 trackBallMapping(double xpos, double ypos);
 };
 
 #endif

@@ -7,14 +7,6 @@
 //
 
 #include "Maze.h"
-#include <vector>
-#include <iostream>
-#include <string>
-#include <cstdlib>
-#include <time.h>
-#include <random>
-#include <algorithm>
-#include <set>
 
 std::vector<int> v;
 std::vector<std::string> G;
@@ -79,23 +71,30 @@ std::vector<std::string> generate() {
     return G;
 }
 
-Maze::Maze(GLuint shader, std::string file_name) : Geometry(shader){
+Maze::Maze(GLuint shader, std::string file_name) : Geometry(shader, file_name){
     srand((int)time(NULL));
     N = 50;
     generate();
     
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
-            if (G[i][j] == '#') {
+            // remove walls for enterance and exit
+            if (i + j > 1 && i + j < 2 * N - 1 && G[i][j] == '#') {
                 walls.push_back(new Wall(shader, i, j, rand()));
             }
         }
     }
+    model = glm::translate(glm::vec3(-500, -1, -500)) * glm::scale(glm::vec3(1000,1,1000));
 }
 
 void Maze::draw() {
-    glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_FALSE, glm::value_ptr(model));
+//    glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_FALSE, glm::value_ptr(glm::scale()));
+
     glUniform3fv(glGetUniformLocation(shader, "color"), 1, glm::value_ptr(glm::vec3(0,0,0)));
+
+    Geometry::draw();
+    glUniform3fv(glGetUniformLocation(shader, "color"), 1, glm::value_ptr(glm::vec3(0,0,1)));
+
     for (auto w : walls) {
         w->draw();
     }

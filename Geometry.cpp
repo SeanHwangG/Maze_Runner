@@ -55,9 +55,9 @@ Geometry::Geometry(GLuint shader, std::string objFilename) : Geometry(shader)
     infile.close();
 
     model = glm::mat4(1);
-    glGenVertexArrays(1, &vao);
+    glGenVertexArrays(1, vaos);
     glGenBuffers(2, vbos);
-    glBindVertexArray(vao);     // Bind to the VAO.
+    glBindVertexArray(vaos[0]);     // Bind to the VAO.
 
     // POINTS
     glBindBuffer(GL_ARRAY_BUFFER, vbos[0]);
@@ -85,7 +85,7 @@ Geometry::Geometry(GLuint shader, std::string objFilename) : Geometry(shader)
 Geometry::~Geometry()
 {
     glDeleteBuffers(2, vbos);
-    glDeleteVertexArrays(1, &vao);
+    glDeleteVertexArrays(1, vaos);
 }
 
 void Geometry::draw()
@@ -93,7 +93,7 @@ void Geometry::draw()
     glUseProgram(shader);
     glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_FALSE,
                        glm::value_ptr(model));
-    glBindVertexArray(vao);
+    glBindVertexArray(vaos[0]);
     glDrawElements(GL_TRIANGLES, (GLsizei) indices.size() * 3, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }

@@ -32,7 +32,7 @@ public:
     std::vector<glm::vec3> points, normals, out_vertices, out_normals;
     std::vector<glm::ivec3> indices;
     glm::mat4 model;
-    GLuint vao, vbos[2], ebo, shader;
+    GLuint vaos[2], vbos[2], ebo, shader;
     Geometry();
     Geometry(GLuint shader);
     Geometry(GLuint shader, std::string objFilename);

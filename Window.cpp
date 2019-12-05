@@ -2,9 +2,6 @@
 #include <typeinfo>
 #include <iostream>
 
-//using namespace irrklang;
-
-
 bool Window::is_birdeye = false;
 
 int Window::width;
@@ -18,8 +15,8 @@ Maze * Window::maze;
 glm::vec3 Window::lastPos;
 
 glm::mat4 Window::projection; // Projection matrix.
-glm::vec3 Window::eye(15, 49, 15); // Camera position.
-glm::vec3 Window::center(15, -40, 15); // The point we are looking at.
+glm::vec3 Window::eye(0, 50, 0); // Camera position.
+glm::vec3 Window::center(0, 0, 0); // The point we are looking at.
 glm::vec3 Window::up(0, 0, -1); // The up direction of the camera.
 glm::mat4 Window::view = glm::lookAt(Window::eye, Window::center, Window::up);
 
@@ -35,10 +32,10 @@ bool Window::initializeProgram() {
         std::cerr << "Failed to initialize shader program" << std::endl;
         return false;
     }
-    
+        
     skybox = new Skybox(skybox_shader);
-    player = new Player(object_shader, "data/sphere.obj", glm::vec3(0, -40, 0));
-    maze = new Maze(object_shader, "data/maze1.txt");
+    player = new Player(object_shader, "data/sphere.obj", glm::vec3(0, 1, 0));
+    maze = new Maze(object_shader, "data/box.obj");
     
     return true;
 }
@@ -120,11 +117,12 @@ void Window::displayCallback(GLFWwindow* window)
     // Clear the color and depth buffers.
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    
     glUseProgram(skybox_shader);
     glUniformMatrix4fv(glGetUniformLocation(skybox_shader, "projection"), 1, GL_FALSE,
-                       glm::value_ptr(projection));
+                      glm::value_ptr(projection));
     glUniformMatrix4fv(glGetUniformLocation(skybox_shader, "view"), 1, GL_FALSE,
-                       glm::value_ptr(is_birdeye? view: player->getView()));
+                      glm::value_ptr(is_birdeye? view: player->getView()));
     skybox->draw();
 
     glUseProgram(object_shader);
@@ -145,17 +143,16 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
         switch (key)
         {
         case GLFW_KEY_ESCAPE:
-            // Close the window. This causes the program to also terminate.
             glfwSetWindowShouldClose(window, GL_TRUE);
             break;
         case GLFW_KEY_B:
             is_birdeye = !is_birdeye;
             break;
         case GLFW_KEY_LEFT:
-            player->is_turning = -1;
+            player->turn_angle = 1;
             break;
         case GLFW_KEY_RIGHT:
-            player->is_turning = 1;
+            player->turn_angle = -1;
             break;
         case GLFW_KEY_UP:
             player->is_walking = true;
@@ -173,35 +170,12 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
                 player->is_walking = false;
                 break;
             case GLFW_KEY_LEFT:
-                player->is_turning = 0;
+            case GLFW_KEY_RIGHT:
+                player->turn_angle = 0;
+                break;
         }
-
     }
 }
 
 void Window::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
-}
-
-glm::vec3 Window::trackBallMapping(double xpos, double ypos) {
-    glm::vec3 v;
-    
-    v.x = (2.0 * xpos - Window::width) / (float)Window::width;
-    v.y = (Window::height - 2.0 * ypos) / (float)Window::height;
-    float d = (glm::length(v) < 1.0? glm::length(v): 1.0);
-    v.z = sqrtf(1.001 - d*d);
-    
-    return -glm::normalize(v);
-}
-
-void Window::cursorPositionCallback(GLFWwindow* window, double xpos, double ypos) {
-    int state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
-    glm::vec3 curPos = trackBallMapping(xpos, ypos);
-    if (state == GLFW_PRESS && Window::lastPos.x != 0) {
-        glm::vec3 rotAxis = glm::cross(Window::lastPos, curPos);
-        glm::mat4 rot = glm::rotate(glm::radians(0.7f), rotAxis);
-        //player->dir = rot * glm::vec4(player->dir, 0);
-        //player->center = glm::vec4(player->eye, 1) + rot * glm::vec4(player->center - player->eye, 1);
-    }
-    
-    Window::lastPos = curPos;
 }

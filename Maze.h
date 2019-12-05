@@ -13,8 +13,24 @@
 #include <string>
 #include <iostream>
 #include <stdio.h>
+#include <vector>
+#include <iostream>
+#include <string>
+#include <cstdlib>
+#include <time.h>
+#include <random>
+#include <algorithm>
+#include <set>
+#include <glm/glm.hpp>
+#include <glm/gtx/transform.hpp>
+#include <glm/gtx/string_cast.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "Wall.h"
 
+/**
+  Maze has list of wall pointers. Also it draws a big box which can be thought of ground.
+ */
 class Maze : Geometry
 {
 public:

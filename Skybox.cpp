@@ -17,14 +17,14 @@ Skybox::Skybox(GLuint shader) : Geometry(shader)
     // Changing to 0 100 for y axis doesn't work
     std::vector<glm::vec3> vertices
     {
-        glm::vec3(-50.0f, 50.0f, 50.0f),
-        glm::vec3(-50.0f, -50.0f, 50.0f),
-        glm::vec3(50.0f, -50.0f, 50.0f),
-        glm::vec3(50.0f, 50.0f, 50.0f),
-        glm::vec3(-50.0f, 50.0f, -50.0f),
-        glm::vec3(-50.0f, -50.0f, -50.0f),
-        glm::vec3(50.0f, -50.0f, -50.0f),
-        glm::vec3(50.0f, 100.0f, -50.0f)
+        glm::vec3(-500.0f, 500.0f, 500.0f),
+        glm::vec3(-500.0f, -500.0f, 500.0f),
+        glm::vec3(500.0f, -500.0f, 500.0f),
+        glm::vec3(500.0f, 500.0f, 500.0f),
+        glm::vec3(-500.0f, 500.0f, -500.0f),
+        glm::vec3(-500.0f, -500.0f, -500.0f),
+        glm::vec3(500.0f, -500.0f, -500.0f),
+        glm::vec3(500.0f, 500.0f, -500.0f)
     };
     //for (auto& v : vertices) v *= 500;
     
@@ -52,9 +52,9 @@ Skybox::Skybox(GLuint shader) : Geometry(shader)
     
 
     // Generate a vertex array (VAO) and two vertex buffer objects (VBO).
-    glGenVertexArrays(1, &vao);
+    glGenVertexArrays(1, vaos);
     glGenBuffers(2, vbos);
-    glBindVertexArray(vao);
+    glBindVertexArray(vaos[0]);
 
     // vertices
     glBindBuffer(GL_ARRAY_BUFFER, vbos[0]);
@@ -69,13 +69,16 @@ Skybox::Skybox(GLuint shader) : Geometry(shader)
                  indices.data(), GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+    
+    
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
 }
 
 Skybox::~Skybox()
 {
     // Delete the VBO and the VAO.
     glDeleteBuffers(2, vbos);
-    glDeleteVertexArrays(1, &vao);
+    glDeleteVertexArrays(1, vaos);
 }
 
 void Skybox::draw() {
@@ -83,7 +86,7 @@ void Skybox::draw() {
     glDepthMask(GL_FALSE);
     glEnable(GL_CULL_FACE);
     
-    glBindVertexArray(vao);
+    glBindVertexArray(vaos[0]);
     glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
     glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
     
