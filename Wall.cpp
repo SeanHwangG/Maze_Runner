@@ -2,8 +2,9 @@
 
 Wall::Wall(GLuint shader, int i, int j, int height) : Geometry(shader, "data/box.obj")
 {
-    model *= glm::translate(glm::vec3(i, 0, j));
-    model *= glm::scale(glm::vec3(1, 1, 1));
+    pos = glm::vec3(i, 0, j);
+    model *= glm::translate(pos);
+    model *= glm::scale(glm::vec3(1, 1.5, 1));
 }
 
 Wall::~Wall()

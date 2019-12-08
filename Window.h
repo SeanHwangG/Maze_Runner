@@ -37,6 +37,11 @@ public:
     static glm::vec3 center;
     static glm::vec3 up;
     static glm::vec3 lastPos;
+
+	static glm::vec2 cursorPoint;
+	static glm::vec3 lastPoint;
+	static bool movement;
+	static glm::vec3 camera_direction;
     
     static GLuint object_shader;
     static GLuint skybox_shader;
@@ -49,6 +54,9 @@ public:
 	static void displayCallback(GLFWwindow*);
 	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
     static void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+	static void mouse_callback(GLFWwindow* window, int button, int action, int mods);
+	static void cursor_callback(GLFWwindow* window, double xpos, double ypos);
+	static glm::vec3 trackBallMapping(GLFWwindow* window, double xps, double yps);
 };
 
 #endif

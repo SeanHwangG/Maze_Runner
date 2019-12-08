@@ -12,7 +12,7 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/string_cast.hpp>
-#include <stb_image.h>
+#include "stb_image.h"
 #include <vector>
 #include <string>
 #include <fstream>
@@ -39,6 +39,7 @@ public:
     ~Geometry();
     
     void draw();
+    void draw(glm::vec3 color);
     void update(){};
     static GLuint loadCubemap(std::vector<std::string> faces);
 };

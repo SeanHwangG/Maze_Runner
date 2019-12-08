@@ -99,3 +99,15 @@ void Maze::draw() {
         w->draw();
     }
 }
+
+bool Maze::collision(glm::vec3 position, float radius) {
+    bool flag = false;
+    for (auto w : walls) {
+        auto wallPos = w->pos + glm::vec3(0.5, 0, 0.5);
+        if (abs(wallPos.x - position.x) < (0.5 + radius) && abs(wallPos.z - position.z) < (0.5 + radius)){
+            //std::cout << wallPos.x << " " << wallPos.z << "--" << position.x << " " << position.z << std::endl;
+            return true;
+         }
+    }
+    return false;
+}
