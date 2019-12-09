@@ -1,0 +1,6 @@
+Nearly all relevant codes contains in plants.c & plants.cpp
+
+Other things may affect
+1. Transform class
+2. Camera class
+3. images.c % .cpp to handel stbi_img.h
