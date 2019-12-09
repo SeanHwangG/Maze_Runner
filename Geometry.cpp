@@ -98,6 +98,17 @@ void Geometry::draw()
     glBindVertexArray(0);
 }
 
+void Geometry::draw(glm::vec3 color)
+{
+    glUseProgram(shader);
+    glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_FALSE,
+        glm::value_ptr(model));
+    glUniform3fv(glGetUniformLocation(shader, "color"), 1, glm::value_ptr(color));
+    glBindVertexArray(vaos[0]);
+    glDrawElements(GL_TRIANGLES, (GLsizei)indices.size() * 3, GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
+}
+
 GLuint Geometry::loadCubemap(std::vector<std::string> faces){
     GLuint textureID;
     glGenTextures(1, &textureID);

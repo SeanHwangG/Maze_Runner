@@ -18,6 +18,7 @@ class Wall : public Geometry
 {
 public:
 	Wall(GLuint shader, int i, int j, int height);
+	glm::vec3 pos;
 	~Wall();
 
 	void draw();

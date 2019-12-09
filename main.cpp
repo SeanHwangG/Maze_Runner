@@ -11,6 +11,12 @@ void setup_callbacks(GLFWwindow* window)
 	glfwSetKeyCallback(window, Window::keyCallback);
     glfwSetScrollCallback(window, Window::scrollCallback);
 	glfwSetWindowSizeCallback(window, Window::resizeCallback);
+
+	//YW
+	// set the mouse left button down callback
+	glfwSetMouseButtonCallback(window, Window::mouse_callback);
+	// set the mouse cursor callback
+	glfwSetCursorPosCallback(window, Window::cursor_callback);
 }
 
 

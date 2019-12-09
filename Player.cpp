@@ -8,8 +8,9 @@
 
 #include "Player.h"
 
-Player::Player(GLuint shader, std::string objFilename, glm::vec3 start_pos) : Geometry(shader, objFilename){
+Player::Player(GLuint shader, std::string objFilename, glm::vec3 start_pos, Maze* maz) : Geometry(shader, objFilename){
     eye = start_pos;
+    this->maz = maz;
 };
 
 glm::mat4 Player::getView() {
@@ -24,9 +25,20 @@ void Player::draw() {
     
     if (is_walking) {
         //smodel = glm::translate(eye);
-        eye += glm::vec3(sin(angle), (double) 0, cos(angle)) / 2.0f;
+        if (!maz->collision(eye + glm::vec3(sin(angle), 0, 0) / 20.0f, radius))
+            eye += glm::vec3(sin(angle), 0, 0) / 20.0f;
+        if (!maz->collision(eye + glm::vec3(0, 0, cos(angle)) / 20.0f, radius))
+            eye += glm::vec3(0, 0, cos(angle)) / 20.0f;
     }
-    glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_FALSE, glm::value_ptr(glm::translate(eye)));
-    glUniform3fv(glGetUniformLocation(shader, "color"), 1, glm::value_ptr(glm::vec3(0,1,0)));
-    //Geometry::draw();
+    if (is_backing) {
+        //eye -= glm::vec3(sin(angle), (double)0, cos(angle)) / 20.0f;
+        if (!maz->collision(eye - glm::vec3(sin(angle), 0, 0) / 20.0f, radius))
+            eye -= glm::vec3(sin(angle), 0, 0) / 20.0f;
+        if (!maz->collision(eye - glm::vec3(0, 0, cos(angle)) / 20.0f, radius))
+            eye -= glm::vec3(0, 0, cos(angle)) / 20.0f;
+    }
+    model = glm::translate(eye) * glm::scale(glm::vec3(radius, radius, radius));
+    glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_FALSE, glm::value_ptr(model));
+    glUniform3fv(glGetUniformLocation(shader, "color"), 1, glm::value_ptr(glm::vec3(1,0,0)));
+    Geometry::draw();
 }

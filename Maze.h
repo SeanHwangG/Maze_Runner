@@ -38,6 +38,7 @@ public:
     std::vector<Wall*> walls;
 
     void draw();
+    bool collision(glm::vec3 position, float radius);
 };
 
 #endif
