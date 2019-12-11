@@ -14,11 +14,13 @@
 
 #include "Geometry.h"
 
-class Wall : public Geometry
+class Wall
 {
 public:
-	Wall(GLuint shader, int i, int j, int height);
+	Wall(GLuint shader, int i, int j, int height, Geometry* obj);
 	glm::vec3 pos;
+	glm::mat4 model;
+	Geometry* wall_object;
 	~Wall();
 
 	void draw();
