@@ -34,8 +34,9 @@
 class Maze : Geometry
 {
 public:
-    Maze(GLuint shader, std::string file_name);
+    Maze(GLuint shader, GLuint wallshader, std::string file_name);
     std::vector<Wall*> walls;
+    bool collision_on = true;
 
     void draw();
     bool collision(glm::vec3 position, float radius);

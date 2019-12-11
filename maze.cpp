@@ -71,16 +71,17 @@ std::vector<std::string> generate() {
     return G;
 }
 
-Maze::Maze(GLuint shader, std::string file_name) : Geometry(shader, file_name){
+Maze::Maze(GLuint shader, GLuint wallshader, std::string file_name) : Geometry(shader, file_name){
     srand((int)time(NULL));
     N = 50;
     generate();
+    auto wall_object = new Geometry(wallshader, "data/terrain64.obj");
     
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
             // remove walls for enterance and exit
             if (i + j > 1 && i + j < 2 * N - 1 && G[i][j] == '#') {
-                walls.push_back(new Wall(shader, i, j, rand()));
+                walls.push_back(new Wall(shader, i, j, rand(), wall_object));
             }
         }
     }
@@ -89,11 +90,10 @@ Maze::Maze(GLuint shader, std::string file_name) : Geometry(shader, file_name){
 
 void Maze::draw() {
 //    glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_FALSE, glm::value_ptr(glm::scale()));
-
+    glUseProgram(shader);
     glUniform3fv(glGetUniformLocation(shader, "color"), 1, glm::value_ptr(glm::vec3(0,0,0)));
 
     Geometry::draw();
-    glUniform3fv(glGetUniformLocation(shader, "color"), 1, glm::value_ptr(glm::vec3(0,0,1)));
 
     for (auto w : walls) {
         w->draw();
@@ -101,6 +101,8 @@ void Maze::draw() {
 }
 
 bool Maze::collision(glm::vec3 position, float radius) {
+    if (!collision_on)
+        return false;
     bool flag = false;
     for (auto w : walls) {
         auto wallPos = w->pos + glm::vec3(0.5, 0, 0.5);

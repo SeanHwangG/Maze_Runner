@@ -39,7 +39,7 @@ public:
     ~Geometry();
     
     void draw();
-    void draw(glm::vec3 color);
+    void draw(glm::mat4 M, glm::vec3 color);
     void update(){};
     static GLuint loadCubemap(std::vector<std::string> faces);
 };

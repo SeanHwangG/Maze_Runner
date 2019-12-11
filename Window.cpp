@@ -22,6 +22,7 @@ glm::mat4 Window::view = glm::lookAt(Window::eye, Window::center, Window::up);
 
 GLuint Window::object_shader;
 GLuint Window::skybox_shader;
+GLuint Window::wall_shader;
 
 // YW
 glm::vec3 Window::camera_direction(glm::normalize(center - eye));
@@ -29,21 +30,21 @@ glm::vec2 Window::cursorPoint;
 glm::vec3 Window::lastPoint;
 bool Window::movement = false;
 
-
 bool Window::initializeProgram() {
     object_shader = LoadShaders("shaders/object.vert", "shaders/object.frag");
+    wall_shader = LoadShaders("shaders/wall.vert", "shaders/wall.frag");
     skybox_shader = LoadShaders("shaders/skybox.vert", "shaders/skybox.frag");
 
-    if (!object_shader || !skybox_shader)
+    if (!object_shader || !skybox_shader || !wall_shader)
     {
         std::cerr << "Failed to initialize shader program" << std::endl;
         return false;
     }
         
     skybox = new Skybox(skybox_shader);
-    maze = new Maze(object_shader, "data/box.obj");
+    maze = new Maze(object_shader, wall_shader, "data/box.obj");
     player = new Player(object_shader, "data/sphere.obj", glm::vec3(0, 1, 0), maze);
-    
+
     return true;
 }
 
@@ -137,6 +138,11 @@ void Window::displayCallback(GLFWwindow* window)
     glUniformMatrix4fv(glGetUniformLocation(object_shader, "view"), 1, GL_FALSE, glm::value_ptr(is_birdeye? view: player->getView()));
     
     player->draw();
+
+    glUseProgram(wall_shader);
+    glUniformMatrix4fv(glGetUniformLocation(wall_shader, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+    glUniformMatrix4fv(glGetUniformLocation(wall_shader, "view"), 1, GL_FALSE, glm::value_ptr(is_birdeye ? view : player->getView()));
+    glUniform3fv(glGetUniformLocation(wall_shader, "eye"), 1, glm::value_ptr(player->eye));
     maze->draw();
 
     glfwPollEvents();
@@ -152,6 +158,9 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
             break;
         case GLFW_KEY_B:
             is_birdeye = !is_birdeye;
+            break;
+        case GLFW_KEY_C:
+            maze->collision_on = !maze->collision_on;
             break;
         }
     }
@@ -246,48 +255,4 @@ void Window::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) 
         eye += glm::vec3(0, yoffset, 0);
         view = glm::lookAt(Window::eye, Window::center, Window::up);
     }
-}
-
-
-void Window::mouse_callback(GLFWwindow* window, int button, int action, int mods) {
-    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
-        movement = true;
-        lastPoint = trackBallMapping(window, cursorPoint.x, cursorPoint.y);
-        glMatrixMode(GL_MODELVIEW); // don't know what this is for
-    }
-    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
-        movement = false;
-    }
-}
-
-void Window::cursor_callback(GLFWwindow* window, double xpos, double ypos) {
-    Window::cursorPoint.x = xpos;
-    Window::cursorPoint.y = ypos;
-    if (movement) {
-        glm::vec3 curPoint = trackBallMapping(window, xpos, ypos);
-        glm::vec3 direction = curPoint - lastPoint;
-        float velocity = glm::length(direction);
-        if (velocity > 0.0001) {
-            glm::vec3 rotAxis = glm::cross(lastPoint, curPoint);
-            float rot_angle = glm::acos(glm::dot(lastPoint, curPoint) / (lastPoint.length() * curPoint.length()));
-            camera_direction = glm::normalize(glm::vec3(glm::vec4(camera_direction, 1.0f) * glm::rotate(rot_angle / 20, rotAxis)));
-            view = glm::lookAt(Window::eye, Window::eye + Window::camera_direction, Window::up);
-            //view = glm::rotate(rot_angle / 100, rotAxis) * view;
-            
-        }
-        lastPoint = curPoint;
-    }
-}
-
-glm::vec3 Window::trackBallMapping(GLFWwindow* window, double xps, double yps) {
-    glm::vec3 v;
-    float d;
-    v.x = (2.0f * xps - Window::width) / Window::width;
-    v.y = (Window::height - 2.0f * yps) / Window::height;
-    v.z = 0.0;
-    d = glm::length(v);
-    d = (d < 1.0) ? d : 1.0;
-    v.z = sqrtf(1.001f - d * d);
-    v = glm::normalize(v);
-    return v;
 }

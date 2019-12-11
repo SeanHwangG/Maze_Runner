@@ -20,7 +20,7 @@ glm::mat4 Player::getView() {
 void Player::draw() {
     if (turn_angle != 0) {
         std::cout<< angle << "[A]\n";
-        angle += turn_angle * 0.02;
+        angle += turn_angle * 0.035;
     }
     
     if (is_walking) {
@@ -39,6 +39,6 @@ void Player::draw() {
     }
     model = glm::translate(eye) * glm::scale(glm::vec3(radius, radius, radius));
     glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_FALSE, glm::value_ptr(model));
-    glUniform3fv(glGetUniformLocation(shader, "color"), 1, glm::value_ptr(glm::vec3(1,0,0)));
+    glUniform3fv(glGetUniformLocation(shader, "color"), 1, glm::value_ptr(glm::vec3(1,1,1)));
     Geometry::draw();
 }
