@@ -20,6 +20,8 @@
 #include "Maze.h"
 #include "Shader.h"
 #include "Skybox.h"
+#include "Plants.h"
+#include "transform.h"
 
 class Window
 {
@@ -46,6 +48,12 @@ public:
     static GLuint object_shader;
     static GLuint skybox_shader;
 	static GLuint wall_shader;
+
+	static GLuint plants_shader;
+	static GLuint particle_shader;
+
+	static Transform* world;
+	static Tree* trees;
     
 	static bool initializeProgram();
 	static void cleanUp();

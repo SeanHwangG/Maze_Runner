@@ -32,6 +32,7 @@ public:
     
     Player(GLuint shader, std::string objFilename, glm::vec3 start_pos, Maze* maz);
     void draw();
+
 };
 
 #endif

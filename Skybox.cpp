@@ -2,7 +2,8 @@
 
 Skybox::Skybox(GLuint shader) : Geometry(shader)
 {
-    textureID = Skybox::loadCubemap({"data/right.tga", "data/left.tga", "data/top.tga", "data/base.tga", "data/front.tga", "data/back.tga"});;
+    //textureID = Skybox::loadCubemap({"data/right.tga", "data/left.tga", "data/top.tga", "data/base.tga", "data/front.tga", "data/back.tga"});;
+	textureID = Skybox::loadCubemap({ "skybox/right.jpg", "skybox/left.jpg", "skybox/top.jpg", "skybox/bottom.jpg", "skybox/front.jpg", "skybox/back.jpg" });;
 
     /*
      * Skybox indices used below.

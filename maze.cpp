@@ -75,7 +75,7 @@ Maze::Maze(GLuint shader, GLuint wallshader, std::string file_name) : Geometry(s
     srand((int)time(NULL));
     N = 50;
     generate();
-    auto wall_object = new Geometry(wallshader, "data/terrain64.obj");
+    auto wall_object = new Geometry(wallshader, "data/terrain32.obj");
     
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {

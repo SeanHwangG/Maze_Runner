@@ -24,6 +24,12 @@ GLuint Window::object_shader;
 GLuint Window::skybox_shader;
 GLuint Window::wall_shader;
 
+GLuint Window::plants_shader;
+GLuint Window::particle_shader;
+
+Transform* Window::world;
+Tree* Window::trees;
+
 // YW
 glm::vec3 Window::camera_direction(glm::normalize(center - eye));
 glm::vec2 Window::cursorPoint;
@@ -44,6 +50,44 @@ bool Window::initializeProgram() {
     skybox = new Skybox(skybox_shader);
     maze = new Maze(object_shader, wall_shader, "data/box.obj");
     player = new Player(object_shader, "data/sphere.obj", glm::vec3(0, 1, 0), maze);
+
+
+	// Create a shader program with a vertex shader and a fragment shader.
+	plants_shader = LoadShaders("shaders/shaderPlants.vert", "shaders/shaderPlants.frag");
+	//std::cerr << "shader ID " << program << std::endl;
+	// Check the shader program.
+	if (!plants_shader)
+	{
+		std::cerr << "Failed to initialize shader program" << std::endl;
+		return false;
+	}
+
+	particle_shader = LoadShaders("shaders/shaderParticle.vert", "shaders/shaderParticle.frag");
+	std::cerr << "shader ID " << particle_shader << std::endl;
+	if (!particle_shader)
+	{
+		std::cerr << "Failed to initialize shaderParticles program" << std::endl;
+		return false;
+	}
+
+	Particles* tempPar = new Particles();
+	tempPar->setParameters(particle_shader, player);
+
+	world = new Transform(glm::mat4(1), 0, 0, 0, player);
+	trees = new Tree(plants_shader, player);
+	Transform* oak = trees->oak();
+	Transform* bush = trees->bush();
+	Transform* vine = trees->vine();
+	glm::mat4 T = glm::translate(glm::vec3(0, 0, 0));
+	glm::mat4 S = glm::scale(glm::vec3(0.5, 0.5, 0.5));
+	Transform* tree2World1 = new Transform(T*S, 0, 0, 0, player);
+	tree2World1->addChild(oak);
+	world->addChild(tree2World1);
+
+	//T = glm::translate(glm::vec3(8, -5.5, 0));
+	//Transform* tree2World2 = new Transform(T, 0, 0, 0, player);
+	//tree2World2->addChild(oak);
+	//world->addChild(tree2World2);
 
     return true;
 }
@@ -117,33 +161,37 @@ void Window::resizeCallback(GLFWwindow* window, int width, int height)
 
 void Window::idleCallback()
 {
-    
+	world->update();
 }
 
 void Window::displayCallback(GLFWwindow* window)
 {
+	player->projection = Window::projection;
+
     // Clear the color and depth buffers.
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     
     glUseProgram(skybox_shader);
     glUniformMatrix4fv(glGetUniformLocation(skybox_shader, "projection"), 1, GL_FALSE,
-                      glm::value_ptr(projection));
+                      glm::value_ptr(player->projection));
     glUniformMatrix4fv(glGetUniformLocation(skybox_shader, "view"), 1, GL_FALSE,
                       glm::value_ptr(is_birdeye? view: player->getView()));
     skybox->draw();
 
     glUseProgram(object_shader);
-    glUniformMatrix4fv(glGetUniformLocation(object_shader, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+    glUniformMatrix4fv(glGetUniformLocation(object_shader, "projection"), 1, GL_FALSE, glm::value_ptr(player->projection));
     glUniformMatrix4fv(glGetUniformLocation(object_shader, "view"), 1, GL_FALSE, glm::value_ptr(is_birdeye? view: player->getView()));
     
     player->draw();
 
     glUseProgram(wall_shader);
-    glUniformMatrix4fv(glGetUniformLocation(wall_shader, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+    glUniformMatrix4fv(glGetUniformLocation(wall_shader, "projection"), 1, GL_FALSE, glm::value_ptr(player->projection));
     glUniformMatrix4fv(glGetUniformLocation(wall_shader, "view"), 1, GL_FALSE, glm::value_ptr(is_birdeye ? view : player->getView()));
     glUniform3fv(glGetUniformLocation(wall_shader, "eye"), 1, glm::value_ptr(player->eye));
     maze->draw();
+
+	world->draw(glm::mat4(1));
 
     glfwPollEvents();
     glfwSwapBuffers(window);

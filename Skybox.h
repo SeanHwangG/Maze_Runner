@@ -22,6 +22,8 @@ public:
     Skybox(GLuint shader);
     ~Skybox();
     void draw();
+	void draw(glm::mat4 C) {}
+	void update() {}
 };
 
 #endif
