@@ -71,17 +71,20 @@ std::vector<std::string> generate() {
     return G;
 }
 
-Maze::Maze(GLuint shader, GLuint wallshader, std::string file_name) : Geometry(shader, file_name){
+Maze::Maze(GLuint shader, GLuint wallshader, std::string file_name) : Geometry(wallshader, file_name){
     srand((int)time(NULL));
     N = 50;
     generate();
-    auto wall_object = new Geometry(wallshader, "data/terrain64.obj");
+    auto wall_object = new Geometry(wallshader, 0, 64);
+    auto wall_frame = new Geometry(shader, "data/box.obj");
+    floor = new Geometry(wallshader, 1, 128);
+    shader = wallshader;
     
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
             // remove walls for enterance and exit
             if (i + j > 1 && i + j < 2 * N - 1 && G[i][j] == '#') {
-                walls.push_back(new Wall(shader, i, j, rand(), wall_object));
+                walls.push_back(new Wall(i, j, rand(), wall_object, wall_frame));
             }
         }
     }
@@ -91,25 +94,25 @@ Maze::Maze(GLuint shader, GLuint wallshader, std::string file_name) : Geometry(s
 void Maze::draw() {
 //    glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_FALSE, glm::value_ptr(glm::scale()));
     glUseProgram(shader);
-    glUniform3fv(glGetUniformLocation(shader, "color"), 1, glm::value_ptr(glm::vec3(0,0,0)));
 
-    Geometry::draw();
+    Geometry::draw(model, glm::vec3(0.5, 0.5, 0.5));
 
     for (auto w : walls) {
-        w->draw();
+        w->draw(collision_on);
     }
 }
 
-bool Maze::collision(glm::vec3 position, float radius) {
-    if (!collision_on)
-        return false;
+bool Maze::collision(glm::vec3 position, float radius, bool unmark) {
     bool flag = false;
     for (auto w : walls) {
         auto wallPos = w->pos + glm::vec3(0.5, 0, 0.5);
-        if (abs(wallPos.x - position.x) < (0.5 + radius) && abs(wallPos.z - position.z) < (0.5 + radius)){
-            //std::cout << wallPos.x << " " << wallPos.z << "--" << position.x << " " << position.z << std::endl;
-            return true;
-         }
+        if (abs(wallPos.z - position.z) < (0.5 + radius) && abs(wallPos.x - position.x) < (0.5 + radius)) {
+            flag = true;
+            w->collided = true;
+        }
+        else
+            if (w->collided && unmark) 
+                w->collided = false;
     }
-    return false;
+    return flag;
 }

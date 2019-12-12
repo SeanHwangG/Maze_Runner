@@ -251,7 +251,6 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
 
 void Window::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
     if (is_birdeye) {
-        std::cout << yoffset << std::endl;
         eye += glm::vec3(0, yoffset, 0);
         view = glm::lookAt(Window::eye, Window::center, Window::up);
     }

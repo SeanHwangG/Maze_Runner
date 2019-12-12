@@ -19,22 +19,22 @@ glm::mat4 Player::getView() {
 
 void Player::draw() {
     if (turn_angle != 0) {
-        std::cout<< angle << "[A]\n";
+        //std::cout<< angle << "[A]\n";
         angle += turn_angle * 0.035;
     }
     
     if (is_walking) {
         //smodel = glm::translate(eye);
-        if (!maz->collision(eye + glm::vec3(sin(angle), 0, 0) / 20.0f, radius))
+        if (!maz->collision(eye + glm::vec3(sin(angle), 0, 0) / 20.0f, radius, true))
             eye += glm::vec3(sin(angle), 0, 0) / 20.0f;
-        if (!maz->collision(eye + glm::vec3(0, 0, cos(angle)) / 20.0f, radius))
+        if (!maz->collision(eye + glm::vec3(0, 0, cos(angle)) / 20.0f, radius, false))
             eye += glm::vec3(0, 0, cos(angle)) / 20.0f;
     }
     if (is_backing) {
         //eye -= glm::vec3(sin(angle), (double)0, cos(angle)) / 20.0f;
-        if (!maz->collision(eye - glm::vec3(sin(angle), 0, 0) / 20.0f, radius))
+        if (!maz->collision(eye - glm::vec3(sin(angle), 0, 0) / 20.0f, radius, true))
             eye -= glm::vec3(sin(angle), 0, 0) / 20.0f;
-        if (!maz->collision(eye - glm::vec3(0, 0, cos(angle)) / 20.0f, radius))
+        if (!maz->collision(eye - glm::vec3(0, 0, cos(angle)) / 20.0f, radius, false))
             eye -= glm::vec3(0, 0, cos(angle)) / 20.0f;
     }
     model = glm::translate(eye) * glm::scale(glm::vec3(radius, radius, radius));
