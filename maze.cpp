@@ -75,6 +75,7 @@ Maze::Maze(GLuint shader, GLuint wallshader, std::string file_name) : Geometry(w
     srand((int)time(NULL));
     N = 50;
     generate();
+  
     auto wall_object = new Geometry(wallshader, 0, 64);
     auto wall_frame = new Geometry(shader, "data/box.obj");
     floor = new Geometry(wallshader, 1, 128);

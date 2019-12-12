@@ -12,7 +12,7 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/string_cast.hpp>
-#include "stb_image.h"
+#include "images.h"
 #include <vector>
 #include <string>
 #include <fstream>
