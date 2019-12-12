@@ -40,6 +40,9 @@ public:
 
     void draw();
     bool collision(glm::vec3 position, float radius);
+
+	void draw(glm::mat4 C) {}
+	void update() {}
 };
 
 #endif
