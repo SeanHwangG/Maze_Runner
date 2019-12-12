@@ -17,13 +17,15 @@
 class Wall
 {
 public:
-	Wall(GLuint shader, int i, int j, int height, Geometry* obj);
+	Wall(int i, int j, int height, Geometry* wall_object, Geometry* wall_frame);
 	glm::vec3 pos;
 	glm::mat4 model;
+	bool collided = false;
 	Geometry* wall_object;
+	Geometry* wall_frame;
 	~Wall();
 
-	void draw();
+	void draw(bool collision_on);
 };
 
 #endif

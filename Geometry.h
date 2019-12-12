@@ -22,6 +22,7 @@
 #include <errno.h>
 #include <math.h>
 #include <time.h>
+#include "TerrainGen.h"
 
 
 class Geometry
@@ -36,10 +37,12 @@ public:
     Geometry();
     Geometry(GLuint shader);
     Geometry(GLuint shader, std::string objFilename);
+    Geometry(GLuint shader, int mode, int dim);
     ~Geometry();
     
     void draw();
     void draw(glm::mat4 M, glm::vec3 color);
+    void drawlines(glm::mat4 M, glm::vec3 color);
     void update(){};
     static GLuint loadCubemap(std::vector<std::string> faces);
 };

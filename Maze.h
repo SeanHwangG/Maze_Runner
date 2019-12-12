@@ -36,13 +36,13 @@ class Maze : Geometry
 public:
     Maze(GLuint shader, GLuint wallshader, std::string file_name);
     std::vector<Wall*> walls;
-    bool collision_on = true;
+    bool collision_on = false;
+    Geometry* floor;
 
     void draw();
-    bool collision(glm::vec3 position, float radius);
-
-	void draw(glm::mat4 C) {}
-	void update() {}
+    bool collision(glm::vec3 position, float radius, bool unmark);
+	  void draw(glm::mat4 C) {}
+	  void update() {}
 };
 
 #endif

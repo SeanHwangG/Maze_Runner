@@ -82,6 +82,39 @@ Geometry::Geometry(GLuint shader, std::string objFilename) : Geometry(shader)
     glBindVertexArray(0);
 }
 
+Geometry::Geometry(GLuint shader, int mode, int dim) :Geometry(shader) {
+    TerrainGen t(mode, dim);
+    points = t.vertices;
+    normals = t.vertexNormal;
+    indices = t.faces;
+    model = glm::mat4(1);
+    glGenVertexArrays(1, vaos);
+    glGenBuffers(2, vbos);
+    glBindVertexArray(vaos[0]);     // Bind to the VAO.
+
+    // POINTS
+    glBindBuffer(GL_ARRAY_BUFFER, vbos[0]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * points.size(), points.data(), GL_DYNAMIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
+
+    // NORMALS
+    glBindBuffer(GL_ARRAY_BUFFER, vbos[1]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * normals.size(), normals.data(), GL_DYNAMIC_DRAW);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
+
+    // INDICES
+    glGenBuffers(1, &ebo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(glm::ivec3) * indices.size(), indices.data(), GL_DYNAMIC_DRAW);
+
+    // Unbind from the VBO.
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    glBindVertexArray(0);
+}
+
 Geometry::~Geometry()
 {
     glDeleteBuffers(2, vbos);
@@ -106,6 +139,16 @@ void Geometry::draw(glm::mat4 M, glm::vec3 color)
     glUniform3fv(glGetUniformLocation(shader, "color"), 1, glm::value_ptr(color));
     glBindVertexArray(vaos[0]);
     glDrawElements(GL_TRIANGLES, (GLsizei)indices.size() * 3, GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
+}
+
+void Geometry::drawlines(glm::mat4 M, glm::vec3 color) {
+    glUseProgram(shader);
+    glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_FALSE,
+        glm::value_ptr(M));
+    glUniform3fv(glGetUniformLocation(shader, "color"), 1, glm::value_ptr(color));
+    glBindVertexArray(vaos[0]);
+    glDrawElements(GL_LINES, (GLsizei)indices.size() * sizeof(glm::ivec3), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }
 
